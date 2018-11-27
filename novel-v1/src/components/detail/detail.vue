@@ -99,7 +99,7 @@
         methods:{
             //显示书籍详情
             loadDetail:function(bookname,author,bid){
-                var url = 'http://127.0.0.1:3000/book/search';
+                var url = 'http://127.0.0.1:3000/book/load';
                 Axios.get(url,{
                     params:{
                         bookname,
@@ -134,7 +134,6 @@
                     console.log('得到总条数'+this.pageCount);
                     //同步到本地model，加载并拼接
                      this.commentList = (this.commentList).concat(res.data.obj.data);
-                     console.log('已经加载了：'+this.commentList);
                     //  this.commentList = this.commentList.concat(res.data.obj.data);
                     //console.log(this.commentList);
                 })
@@ -165,7 +164,7 @@
                         bookname
                     }
                 });
-                
+
             },
 
             // 收藏
