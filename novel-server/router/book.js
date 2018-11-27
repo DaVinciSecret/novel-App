@@ -14,6 +14,19 @@ router.get('/',(req,res)=>{
     })
 });
 
+router.get('/load',(req,res)=>{
+    var bookname = req.query.bookname;
+    var author = req.query.author;
+    console.log(bookname,author);
+    var sqlstr = 'select bid,bookname,author,poster,smimg,subtitle from nov_book where bookname = ? AND author = ?';
+    pool.query(sqlstr,[bookname,author],(err,result)=>{
+        if(err) throw err;
+        if(result.length > 0){
+            res.send({code:200,data:result});
+        }
+    })
+})
+
 //按书名和作者查询
 router.get('/search',(req,res)=>{
     var keyCode = req.query.keyCode;
