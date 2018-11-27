@@ -48,12 +48,19 @@ router.post('/signup',(req,res)=>{
     var $uname = req.body.uname;
     var $upwd = req.body.upwd;
     var $email = req.body.email;
-    var $avatar = '../img/head1.png'
-    var sqlstr = 'insert into nov_user values (NULL,?,?,?,?,1)';
-    pool.query(sqlstr,[$uname,$upwd,$avatar,$email],(err,result)=>{
+    var $subtitle = req.body.subtitle;
+    console.log($uname,$upwd,$email,$subtitle);
+    if(!$subtitle){
+        $subtitle = "这位用户很懒，什么也没说"
+    }
+    var $avatar = '../img/head1.png';
+    var sqlstr = 'insert into nov_user values (NULL,?,?,?,?,?,1)';
+    pool.query(sqlstr,[$uname,$upwd,$subtitle,$email,$avatar],(err,result)=>{
         if(err) throw err;
-        if(result.afftectedRows > 0){
+        if(result.affectedRows > 0){
             res.send({code:'200',msg:'register success'});
+        }else{
+            res.send({code:'305',msg:'register fail'})
         }
     })
 
@@ -64,6 +71,7 @@ router.post('/signup',(req,res)=>{
 router.get('/checkName',(req,res)=>{
     var $uname = req.query.uname;
     var sqlstr =  'select uid from nov_user where uname = ?';
+    console.log($uname);
     pool.query(sqlstr,[$uname],(err,result)=>{
         if(err) throw err;
         if(result.length > 0){
